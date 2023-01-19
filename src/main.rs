@@ -1,4 +1,7 @@
+use std::error::Error;
+mod hacker_news;
+
 #[tokio::main]
-async fn main() {
-    println!("Hello world!");
+async fn main() -> Result<(), Box<dyn Error>> {
+    todo!()
 }
