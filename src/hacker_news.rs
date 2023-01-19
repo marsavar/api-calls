@@ -1,4 +1,4 @@
-use reqwest::{Client, Url};
+use reqwest::{Client, Error, Url};
 use std::str::FromStr;
 
 /// Hacker News API base url.
@@ -21,8 +21,14 @@ impl HackerNewsClient {
     }
 
     /// Get the id of the latest item published on Hacker News
-    pub async fn max_item(&self) {
-        todo!()
+    pub async fn max_item(&self) -> Result<usize, Error> {
+        let mut url = self.base_url.clone();
+        url.path_segments_mut().unwrap().push("maxitem.json");
+
+        let response = self.client.get(url).send().await?;
+        let max_item: usize = response.json().await?;
+
+        Ok(max_item)
     }
 
     /// Get the ids of up to 500 top stories of Hacker News
